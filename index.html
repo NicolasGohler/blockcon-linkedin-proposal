@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPM x Blockcon — LinkedIn Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0f0f1a;
+  --surface: #14142b;
+  --surface2: #1a1a30;
+  --border: #2e2e4a;
+  --text: #fafafa;
+  --text-secondary: #a8a8c0;
+  --text-muted: rgba(168,168,192,0.55);
+  --accent: #6870e8;
+  --accent2: #4050b8;
+  --accent-light: #9fa4f5;
+  --accent-glow: rgba(104,112,232,0.22);
+  --muted: #24243c;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+nav {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 100;
+  background: rgba(10,10,26,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border); border-radius: 100px;
+  padding: 10px 20px; display: flex; align-items: center; gap: 24px; white-space: nowrap;
+}
+nav .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; letter-spacing: 0.02em; color: var(--text); text-decoration: none; }
+nav .nav-logo img { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; object-fit: cover; }
+nav a:not(.nav-logo) { font-size: 13px; color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+nav a:not(.nav-logo):hover { color: var(--text); }
+nav .nav-cta { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff !important; padding: 6px 16px; border-radius: 100px; font-weight: 600; font-size: 12px; letter-spacing: 0.03em; }
+.ticker {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--surface); border-top: 1px solid var(--border);
+  height: 36px; overflow: hidden; z-index: 90; display: flex; align-items: center;
+}
+.ticker-inner { display: flex; animation: ticker 50s linear infinite; white-space: nowrap; }
+.ticker-item { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--text-muted); padding: 0 32px; text-transform: uppercase; }
+.ticker-item span { color: var(--accent); margin-right: 8px; }
+@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  align-items: flex-start; padding: 120px 80px 80px; max-width: 1100px; margin: 0 auto;
+  position: relative;
+}
+.hero::before {
+  content: ''; position: fixed; top: -200px; left: -200px; width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(104,112,232,0.07) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 32px;
+  padding: 6px 14px; border: 1px solid rgba(104,112,232,0.3); border-radius: 100px;
+}
+.hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+.hero h1 { font-size: clamp(48px, 7vw, 88px); font-weight: 400; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 28px; text-wrap: balance; max-width: 900px; }
+.hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-sub { font-size: 19px; font-weight: 400; color: var(--text-secondary); max-width: 540px; margin-bottom: 48px; line-height: 1.55; }
+.hero-metrics { display: flex; gap: 48px; margin-bottom: 52px; flex-wrap: wrap; }
+.metric { display: flex; flex-direction: column; gap: 4px; }
+.metric-value { font-size: 28px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.metric-label { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.glow-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: #fff; text-decoration: none; font-size: 14px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase; padding: 16px 36px;
+  border-radius: 6px; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 40px var(--accent-glow);
+}
+.glow-btn:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(104,112,232,0.45); }
+section { max-width: 1100px; margin: 0 auto; padding: 100px 80px; border-top: 1px solid var(--border); }
+h2 { font-size: clamp(30px, 4vw, 50px); font-weight: 400; letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 20px; text-wrap: balance; }
+h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.body-text { font-size: 17px; font-weight: 400; color: var(--text-secondary); max-width: 620px; line-height: 1.65; margin-bottom: 48px; }
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-top: 48px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.strategy-cell { background: var(--surface); padding: 36px; }
+.strategy-cell:not(:last-child) { border-right: 1px solid var(--border); }
+.strategy-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.strategy-num::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+.strategy-title { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 10px; }
+.strategy-detail { font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 14px; letter-spacing: 0.04em; }
+.strategy-body { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.65; }
+.bd-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 48px; }
+.bd-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+.bd-card:hover { border-color: rgba(104,112,232,0.35); }
+.bd-card.featured { grid-column: span 3; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.bd-card.featured::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+.bd-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.bd-title { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 10px; }
+.bd-body { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.65; }
+.bd-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.bd-list li { font-size: 14px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 10px; font-weight: 400; }
+.bd-list li::before { content: ''; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+.onstage-feature { margin-top: 48px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.onstage-feature::before { content: ''; display: block; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+.onstage-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.onstage-left { padding: 40px; border-right: 1px solid var(--border); }
+.onstage-right { padding: 40px; }
+.onstage-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+.onstage-stat { display: flex; flex-direction: column; gap: 6px; padding: 20px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; }
+.onstage-stat-value { font-size: 24px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.onstage-stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+.onstage-inclusions { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
+.onstage-inclusions li { font-size: 14px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 12px; font-weight: 400; line-height: 1.5; }
+.onstage-inclusions li::before { content: ''; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+.timeline { margin-top: 48px; position: relative; }
+.timeline::before { content: ''; position: absolute; left: 79px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+.timeline-row { display: grid; grid-template-columns: 80px 1fr; gap: 32px; align-items: start; padding: 22px 0; border-bottom: 1px solid var(--border); position: relative; }
+.timeline-row:last-child { border-bottom: none; }
+.timeline-week { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; padding-top: 3px; text-align: right; }
+.timeline-dot { position: absolute; left: 73px; top: 26px; width: 13px; height: 13px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+.timeline-content { padding-left: 24px; }
+.timeline-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.01em; }
+.timeline-desc { font-size: 13px; color: var(--text-secondary); font-weight: 400; line-height: 1.55; }
+.pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+.pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; position: relative; overflow: hidden; }
+.pricing-card.primary::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+.pricing-card.addon { border-style: dashed; }
+.pricing-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+.pricing-amount { font-size: 52px; font-weight: 700; letter-spacing: -0.04em; color: var(--text); line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+.pricing-amount span { font-size: 20px; font-weight: 400; color: var(--text-secondary); letter-spacing: -0.01em; }
+.pricing-period { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 28px; }
+.pricing-includes { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+.pricing-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.pricing-list li { font-size: 14px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 10px; font-weight: 400; line-height: 1.5; }
+.pricing-list li::before { content: ''; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.pricing-meta { display: flex; gap: 32px; margin-top: 36px; flex-wrap: wrap; padding-top: 32px; border-top: 1px solid var(--border); }
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+.meta-value { font-size: 18px; font-weight: 700; color: var(--text); }
+.meta-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+.closing { text-align: center; padding: 120px 80px 160px; max-width: 760px; margin: 0 auto; border-top: 1px solid var(--border); }
+.closing h2 { text-align: center; }
+.closing .body-text { max-width: 100%; text-align: center; margin: 20px auto 48px; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+@media (max-width: 768px) {
+  nav { display: none; }
+  .hero { padding: 80px 24px 60px; }
+  section { padding: 60px 24px; }
+  .strategy-grid { grid-template-columns: 1fr; }
+  .strategy-cell:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+  .bd-grid { grid-template-columns: 1fr; }
+  .bd-card.featured { grid-column: span 1; grid-template-columns: 1fr; gap: 20px; }
+  .onstage-inner { grid-template-columns: 1fr; }
+  .onstage-left { border-right: none; border-bottom: 1px solid var(--border); }
+  .pricing-cards { grid-template-columns: 1fr; }
+  .closing { padding: 60px 24px 100px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="data:image/jpeg;base64,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/wAAZF5spjvQvjrAFR70YJUOUoufTw4I7RatHsq6662PTnvUTPWOmsRcp8CKNDJSC0EPHMfuXEGZVzmRuwU3QMW1oMikG5MgOTUxwoCG2TsE6k8CkapNlHB6PepgZUZwj4eniB2X2OMjgjNXAVnV50d3CjMNl5UBBkbicQTRMMwL5C7cVtPpM3sATvwKXdp+f+0KsgsmMD0u/iA5m8UN6yjJp85e0FIxtQd2+QHkdValMe7NWWoMyC3LJkmtELshZHgZYCEcGnCTcJ06HWsXh0tOWXdr9OcQay4vtQdinSCiw8yxMVJI5Xgz92PXrUgMMG+J809oKUlWVzePN/SD+NttigCMnf8Anf8A/9oADAMBAAIAAwAAABD333333333333333333333333333333333333333333333333333330BhWhuDWpWX330OBqH2fiQX3331dX/5OGh7333316ly/+LNf333326f6w+w9z3333333333333333333333333333333333333333333333333333333/8QAHxEBAAMAAgIDAQAAAAAAAAAAAQARITFBIFFQgbHR/9oACAEDAQE/EPlgBbsILYwq00q0EBo9PcRt4HMoPIe4bHJLm9dQrvw7AyAG7eZWDIPbxVkEA97NDgJRXUB3hz4mXeVLlNi02uovP1Acdyh1ga2QRw+KXdFQan7gBREqkVW2On5f7ANDn8eaFLFRGZQQmi5SF2/3FpfUXmThlfMf/8QAJhEBAAEDAwMEAwEAAAAAAAAAAREAITFBYXFRgZEgscHwUKHR4f/aAAgBAgEBPxD8s+uOLydY12q/NYmkhNBjBVLYtzNR5vwP79vU/kROjm79w0rzeB13/ZzNJUSRORzd+60GRqLpfS9Kza7m70uPt+hV7Hv6CxuiIUm7OBo6GoRE2c9XHmidwNoX2GoSIYnYbj3G25SbQ2Bt5+hM1CuQHZF+8eYqaCfEXI5tSNwWMbpTZXpfOnf359NqlaXPeBfNDlMNscR8VBtukF8A0vKYxFj2qfaTUYd2BUwgxmckfJFIYy8oDnQaGQkwxjiSaXEVMSDHpAAkGSY8+O1X71dmMJOhczFLnKZaXeADwtGTAtGkUWMqh0VUNh00msTGHYKHx5elYuXqnhxQSP7PnaKQZX6a0ukW6RJ2uRWw+uaAEd/9o7o0sTayrqiFerWegTDGGVGNp63ojOZZiM+fzH//xAAnEAEAAQMDAwUAAwEAAAAAAAABEQAhMUFRYRBxgTCRocHwIHDR8f/aAAgBAQABPxD+zB7skAJgS3HWkS4tlqJGFcIMqwORaWAwoFUElC7vQGogFAQRwnjqGXJlsbhYcsFIXjA+LFk+aNRcrUNycnJJ0z4B07sGhq4KPzKAbtiyfNTd4kgHhDkUpk5VoJUhtdQvTBCArSIRvDpUTTryv0BKrYBWoGekVlYACaroC085HCBWCWxQgNGUXhyOjBzJGT+QbPIVDAwjElApA3KgIh5h7UXZSgMlwKJlP3NnVXxOFYg90p6kJwjgS7qAx2GrkTT9nx91vFAgElAlJNBgwL7NQRVpIkO6SKC5whD5NhFoKzlUsM7UyepAY7eGi8oBkRgZRICtJNyjANfM63gtoKzNYWMRuKwMXiC0VduE0zFiyHgLGqzBFKTAZKHkwzAK0GJBUu8bEfxPQvUZhO6ZWoQM4RWlgtuCgpAW9bJBCxIKWBr9zZ1VpOODP4YUhLSzxuOJ+ugHAbaGTHHyTU9eAwPbmo5oL804+joFZ8JRooDZryrTE0kQDLMAXZaTUg7bkis4sbl+wi/OpgTChwiJHoDISiRGF7TQDK7EDgUn3oWBzU1gNSkoWEuCv3NlIN2l7RhrmdKlsqUXGKZBcmLxaXFDeGLHhBOgJwCzqV2UfnPeippbAr5UjSSyCYLoUwiyOQO6Wan9rpRixzJAGxkq+s6xfCbgawninKgOX5I2WYsC8FJMaDKqrX629MHU24+b8aFNrW2Ga0W1nJLU+g8s5IqANADokEHCAcbCmDgqCw4hWQOidcsu4j65F1as4ugntI3OMU6RsRsPe8zWbXePiU246NjuXrwglAy0giLvS91pwaLAGxODgtSvLghIQdxBpkjMe4wxuTQDzLwhcR0acGAgVCDkT0IDHGJlybBsZYsNKwpZ697tCeTDWDBOSF1JLl5TpGwBJGtTYfLoNLsJZ15S+3VChTGbDfPYFKL6BKDmN5g5q9M1K2gCybilE+T5XusXxChTp9NQKGwdoaTRGcGUSVjQaDrljGTWBF/v6YZTEAiWesEBwbtOyCWJy0I98p+KkQ8yAiYwkhN5gBClaehJMUNxSLO9Rd1AugndpsGgDraAWGHCbop5KeIC4JNsUPdyqy0M+roDCFxpKfJEQ0gwNjEcCx0oqZ4B3Y/j8iibiRa5zuQ8i0j1Ds0Nl3sAm6QgOej/ALALgFINYBfFWrpIhUiKMSLUEIwhIjhOv+LQID/UF+m3F+CBb0oy7rLQUKcSHFnSoIAV5u8ahKMkGr6h0lniZJsjeuWizEE3qqwxutqOyi9gqcZgFJZBUS5BuFJ5z2nEe6tBg4zg20qQCsgSjkhLQ0m4lnoyFh8gkImpSPKJanRCOwhG7UkMQYBnQe9jZoeEjBmUMkQciyMAbnR1ABurXPcRojMNqJEJuBmdsBIcHWgoMhiGWB9T/h2BhpmzpUlXqQGb/Aw1+S+6/JfdfkvunbFINPd6zPSV1/rb/9k=" alt="Blockcon" />
+    MPM &times; Blockcon
+  </a>
+  <a href="#overview">Overview</a>
+  <a href="#outreach">Outreach</a>
+  <a href="#onstage">OnStage</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#budget">Budget</a>
+  <a href="#budget" class="nav-cta">Let's go</a>
+</nav>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span>&#x25CF;</span>LinkedIn Growth · 3 Accounts Managed</div>
+    <div class="ticker-item"><span>&#x25B2;</span>BD Outreach · 50 Companies Per Week</div>
+    <div class="ticker-item"><span>&#x25CF;</span>OnStage B2B Distribution Engine</div>
+    <div class="ticker-item"><span>&#x25B2;</span>3-Month Sprint · Aug to Nov 2026</div>
+    <div class="ticker-item"><span>&#x25CF;</span>40 Content Pieces Per Month</div>
+    <div class="ticker-item"><span>&#x25B2;</span>Blockcon Conference · Punta Cana, Nov 2026</div>
+    <div class="ticker-item"><span>&#x25CF;</span>Sponsorship Pipeline Activation</div>
+    <div class="ticker-item"><span>&#x25B2;</span>6 OnStage Episodes · Episode Clipping Included</div>
+    <div class="ticker-item"><span>&#x25CF;</span>LinkedIn Growth · 3 Accounts Managed</div>
+    <div class="ticker-item"><span>&#x25B2;</span>BD Outreach · 50 Companies Per Week</div>
+    <div class="ticker-item"><span>&#x25CF;</span>OnStage B2B Distribution Engine</div>
+    <div class="ticker-item"><span>&#x25B2;</span>3-Month Sprint · Aug to Nov 2026</div>
+    <div class="ticker-item"><span>&#x25CF;</span>40 Content Pieces Per Month</div>
+    <div class="ticker-item"><span>&#x25B2;</span>Blockcon Conference · Punta Cana, Nov 2026</div>
+    <div class="ticker-item"><span>&#x25CF;</span>Sponsorship Pipeline Activation</div>
+    <div class="ticker-item"><span>&#x25B2;</span>6 OnStage Episodes · Episode Clipping Included</div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">MPM &times; Blockcon · August 2026</div>
+  <h1>The conference is in November.<br><em>The LinkedIn window</em> opens now.</h1>
+  <p class="hero-sub">Three months to build your presence, fill your sponsorship pipeline, and put Blockcon on the map of every decision-maker who should be in that room.</p>
+  <div class="hero-metrics">
+    <div class="metric"><div class="metric-value">3 mos</div><div class="metric-label">Sprint window</div></div>
+    <div class="metric"><div class="metric-value">3</div><div class="metric-label">Accounts managed</div></div>
+    <div class="metric"><div class="metric-value">50</div><div class="metric-label">Companies / week</div></div>
+    <div class="metric"><div class="metric-value">3</div><div class="metric-label">Service pillars</div></div>
+  </div>
+  <a href="#overview" class="glow-btn">See the plan</a>
+</div>
+
+<section id="overview">
+  <h2>Three pillars.<br><em>One window.</em></h2>
+  <p class="body-text">With the conference in November and three months to build momentum, every piece below is designed to convert LinkedIn presence into real sponsorship conversations. Each pillar compounds on the others.</p>
+  <div class="strategy-grid">
+    <div class="strategy-cell">
+      <div class="strategy-num">01</div>
+      <div class="strategy-title">Strategic Outreach &amp; BD</div>
+      <div class="strategy-detail">50 companies/week · TradFi, Web3, iGaming</div>
+      <p class="strategy-body">An outreach machine running across both founders' personal accounts and the Blockcon brand page. 50 companies researched per week. 5 to 10 decision-makers identified per company. 10 outreach messages sent daily. One objective: sponsorship conversations booked.</p>
+    </div>
+    <div class="strategy-cell">
+      <div class="strategy-num">02</div>
+      <div class="strategy-title">LinkedIn SMM</div>
+      <div class="strategy-detail">40 content pieces / month · 3 accounts</div>
+      <p class="strategy-body">Content strategy and copywriting across both founder accounts and the Blockcon brand page. 2 to 3 posts per week per account, capped at 40 pieces per month. Tone-of-voice matched to each voice. Narrative anchored to the conference and your three verticals. Your design team executes. We write and direct.</p>
+    </div>
+    <div class="strategy-cell">
+      <div class="strategy-num">03</div>
+      <div class="strategy-title">OnStage B2B Distribution</div>
+      <div class="strategy-detail">400 to 700 registered attendees · 75% decision-makers</div>
+      <p class="strategy-body">Blockcon gets immediate access to MPM's LinkedIn Live format. One spotlight appearance, six speaker placements across the engagement period, brand features across all 6 episodes, newsletter highlights reaching the accumulated audience, and episode clips ready to distribute. The top-of-funnel your sponsors are already in.</p>
+    </div>
+  </div>
+</section>
+
+<section id="outreach">
+  <h2>The <em>sponsorship machine.</em></h2>
+  <p class="body-text">Sponsorships are closed by showing up in the right inboxes, at the right time, with the right message. This does that at volume, every week, for three months.</p>
+  <div class="bd-grid">
+    <div class="bd-card featured">
+      <div>
+        <div class="bd-eyebrow">Core delivery</div>
+        <div class="bd-title">LinkedIn Outreach Across All Three Verticals</div>
+        <p class="bd-body">Both founders' accounts running at full connection capacity. 50 companies researched and queued every week. 5 to 10 decision-makers identified per company across TradFi, Web3-native teams, and iGaming companies integrating blockchain payment rails. Ten targeted messages sent daily. The call-to-action is always calibrated to one thing: a sponsorship conversation.</p>
+        <p class="bd-body" style="margin-top:12px">A messaging flow defined with your team, tone-matched to each founder's voice, with Blockcon's positioning baked in from day one.</p>
+      </div>
+      <ul class="bd-list">
+        <li>LinkedIn connection requests maximized weekly, automated across both founders' accounts</li>
+        <li>50 target companies researched and queued per week</li>
+        <li>5 to 10 decision-makers identified per company</li>
+        <li>5 outreach messages per day from each founder account (10 daily total)</li>
+        <li>Messaging flow defined with your team, adapted to each founder's tone</li>
+        <li>Call-to-action calibrated for sponsorship conversations</li>
+        <li>New contacts invited to follow the Blockcon company page</li>
+        <li>Ongoing optimization and bi-weekly check-ins</li>
+      </ul>
+    </div>
+    <div class="bd-card">
+      <div class="bd-eyebrow">iGaming vertical</div>
+      <div class="bd-title">Stablecoin &amp; Payment Rail Angle</div>
+      <p class="bd-body">iGaming companies integrating blockchain payment rails are an underserved sponsorship vertical right now. Prediction markets, stablecoin payouts, compliance-friendly infrastructure. Blockcon sits exactly at this intersection. We target affiliates, platforms, and operators who already understand where payments are going.</p>
+    </div>
+    <div class="bd-card">
+      <div class="bd-eyebrow">Visibility layer</div>
+      <div class="bd-title">Replyguy Engagement</div>
+      <p class="bd-body">Both founders' accounts engaging with posts from decision-makers in your target market. Commenting, reacting, building feed presence in the right circles. Compounds quietly over weeks. By the time direct outreach lands, the name is already familiar.</p>
+    </div>
+    <div class="bd-card">
+      <div class="bd-eyebrow">Why now</div>
+      <div class="bd-title">Three Months Is Enough, If You Start Today</div>
+      <p class="bd-body">August outreach books September calls. September calls close October deals. October confirmations fill the room for November. The math only works if the machine starts now. Every week of delay is a week of pipeline that never existed.</p>
+    </div>
+  </div>
+</section>
+
+<section id="onstage">
+  <h2>The distribution engine<br><em>already running.</em></h2>
+  <p class="body-text">Blockcon gets immediate access to MPM's LinkedIn Live format across the full 3-month engagement, while the foundation for a proprietary Blockcon format is built in parallel.</p>
+  <div class="onstage-feature">
+    <div class="onstage-inner">
+      <div class="onstage-left">
+        <div class="bd-eyebrow">MPM OnStage</div>
+        <div class="bd-title" style="font-size:26px; margin-bottom:12px">One of the leading B2B media properties in on-chain finance on LinkedIn.</div>
+        <p class="bd-body">Panel discussions, LinkedIn Live events, and the highest-quality speakers in the blockchain and on-chain finance space. Every episode recorded, clipped, and amplified. A biweekly newsletter distributed to all accumulated past attendees. A research series co-authored with a PhD researcher in TradFi and digital assets.</p>
+        <div class="onstage-stat-grid">
+          <div class="onstage-stat">
+            <div class="onstage-stat-value">400&ndash;700</div>
+            <div class="onstage-stat-label">Registered attendees per event</div>
+          </div>
+          <div class="onstage-stat">
+            <div class="onstage-stat-value">75%</div>
+            <div class="onstage-stat-label">Decision-maker density</div>
+          </div>
+          <div class="onstage-stat">
+            <div class="onstage-stat-value">5,000+</div>
+            <div class="onstage-stat-label">Unique viewers (first event)</div>
+          </div>
+          <div class="onstage-stat">
+            <div class="onstage-stat-value">#1</div>
+            <div class="onstage-stat-label">B2B audience · on-chain finance</div>
+          </div>
+        </div>
+      </div>
+      <div class="onstage-right">
+        <div class="bd-eyebrow">What Blockcon gets</div>
+        <div class="bd-title" style="font-size:20px; margin-bottom:16px">Included over the 3-month engagement</div>
+        <ul class="onstage-inclusions">
+          <li><strong>1 spotlight appearance</strong> as featured speakers on OnStage. Topic defined together. Speaker lineup filled with aligned parties from MPM's network.</li>
+          <li><strong>Attendee list</strong> for the spotlight episode. Registered executives available for direct follow-up.</li>
+          <li><strong>6 speaker placements</strong> across the engagement period. Place partners, sponsors, or conference speakers on OnStage panels as a value-add for your leads. One per episode.</li>
+          <li><strong>6 episode brand features</strong> across all episodes in the engagement window. "Brought to you by Blockcon" placement on every episode.</li>
+          <li><strong>Episode clips</strong> produced for every episode during the engagement, ready for Blockcon to distribute across owned channels.</li>
+          <li><strong>2 newsletter highlights</strong> featuring Blockcon, reaching all past registered attendees.</li>
+          <li><strong>Match-making facilitation</strong> between Blockcon and relevant OnStage speakers and partners in the MPM network.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <h2>August to November,<br><em>week by week.</em></h2>
+  <p class="body-text">Three months sounds tight. The cadence below makes it manageable.</p>
+  <div class="timeline">
+    <div class="timeline-row">
+      <div class="timeline-week">Wk 1&ndash;2<br>Aug</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">Setup &amp; Launch</div>
+        <div class="timeline-desc">Account optimization across all three profiles. Messaging flows defined with your team. Content calendar built against your conference narrative. Outreach targeting mapped across TradFi, Web3, and iGaming. OnStage spotlight appearance scheduled for mid-September.</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">Wk 3&ndash;4<br>Aug</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">First Outreach Cycle &amp; Content Live</div>
+        <div class="timeline-desc">Outreach running at full velocity. First content pieces publishing across all three accounts. Replyguy engagement layer active. First bi-weekly check-in.</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">Wk 5&ndash;6<br>Sep</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">Pipeline Building &amp; OnStage Spotlight</div>
+        <div class="timeline-desc">Outreach responses converting to calls. First sponsorship conversations opening. OnStage spotlight episode airs. Attendee list delivered to Blockcon for follow-up. Speaker placements begin for partners and leads. Episode clips distributed across Blockcon channels.</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">Wk 7&ndash;8<br>Sep</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">Mid-Sprint Review</div>
+        <div class="timeline-desc">Data reviewed: which verticals are responding, which messaging angles are working. Outreach optimized. Second content cycle. Newsletter highlight published. Performance snapshot shared.</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">Wk 9&ndash;10<br>Oct</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">Conference Push</div>
+        <div class="timeline-desc">Highest-frequency outreach as the event approaches. Urgency-driven content with speakers announced, venue revealed, and attendee profile highlighted. Remaining speaker placements confirmed. LinkedIn audience warmed for the IRL event.</div>
+      </div>
+    </div>
+    <div class="timeline-row">
+      <div class="timeline-week">Wk 11&ndash;12<br>Oct&ndash;Nov</div>
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-title">Closing Stretch &amp; Handoff</div>
+        <div class="timeline-desc">Final OnStage integration. Sponsorship pipeline closed or handed to your team with full context. Pre-conference content peaks. Full performance report delivered covering outreach volume, reply rates, meetings booked, pipeline value, and content reach. Debrief call. Proposal for a continued engagement to build Blockcon's proprietary LinkedIn media property, if the data warrants it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="budget">
+  <h2>Simple pricing.<br><em>No surprises.</em></h2>
+  <p class="body-text">One flat monthly retainer. Agreed before day one, invoiced monthly. Pay via Stripe, bank transfer, or stablecoin.</p>
+  <div class="pricing-cards">
+    <div class="pricing-card primary">
+      <div class="pricing-eyebrow">Base retainer</div>
+      <div class="pricing-amount">$4,250<span> / mo</span></div>
+      <div class="pricing-period">3-month engagement · $12,750 total</div>
+      <div class="pricing-includes">Includes</div>
+      <ul class="pricing-list">
+        <li>Strategic Outreach &amp; BD across 2 founders and brand account, 50 companies per week</li>
+        <li>LinkedIn SMM: content strategy, copywriting, and direction across all 3 accounts, 40 pieces per month</li>
+        <li>OnStage Integration: spotlight appearance, 6 speaker placements, 6 episode brand features, episode clips, 2 newsletter highlights, and match-making</li>
+      </ul>
+    </div>
+    <div class="pricing-card addon">
+      <div class="pricing-eyebrow">Optional add-on</div>
+      <div class="pricing-amount">+$500<span> / mo</span></div>
+      <div class="pricing-period">Graphics add-on · per month when needed</div>
+      <div class="pricing-includes">Adds</div>
+      <ul class="pricing-list">
+        <li>Static image and carousel design for all posts</li>
+        <li>Branded templates for each account</li>
+        <li>For months when Blockcon's in-house design capacity is unavailable</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pricing-meta">
+    <div class="meta-item">
+      <div class="meta-value">3 months</div>
+      <div class="meta-label">Engagement duration</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-value">3 accounts</div>
+      <div class="meta-label">2 founders + brand page</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-value">$4,250 / mo</div>
+      <div class="meta-label">Base retainer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-value">$12,750</div>
+      <div class="meta-label">Total (base)</div>
+    </div>
+  </div>
+</section>
+
+<div class="closing">
+  <h2>November is closer<br>than it <em>looks.</em></h2>
+  <p class="body-text">Three months to fill a room with 1,000 decision-makers who already know who you are. Outreach running and first content live within 7 days of signing.</p>
+  <a href="mailto:max@mpmlabs.xyz" class="glow-btn">Let's start</a>
+</div>
+
+</body>
+</html>
