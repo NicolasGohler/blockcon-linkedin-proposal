@@ -44,14 +44,6 @@ nav .nav-logo img { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 
 nav a:not(.nav-logo) { font-size: 13px; color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: color 0.2s; }
 nav a:not(.nav-logo):hover { color: var(--text); }
 nav .nav-cta { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff !important; padding: 6px 16px; border-radius: 100px; font-weight: 600; font-size: 12px; letter-spacing: 0.03em; }
-.ticker {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--surface); border-top: 1px solid var(--border);
-  height: 36px; overflow: hidden; z-index: 90; display: flex; align-items: center;
-}
-.ticker-inner { display: flex; animation: ticker 55s linear infinite; white-space: nowrap; }
-.ticker-item { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--text-muted); padding: 0 32px; text-transform: uppercase; }
-.ticker-item span { color: var(--accent); margin-right: 8px; }
 @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
 
@@ -96,21 +88,19 @@ h2 { font-size: clamp(30px, 4vw, 50px); font-weight: 400; letter-spacing: -0.025
 h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .body-text { font-size: 17px; font-weight: 400; color: var(--text-secondary); max-width: 620px; line-height: 1.65; margin-bottom: 48px; }
 
-/* Value exchange grid */
-.exchange-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-  margin-top: 48px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-}
-.exchange-side { background: var(--surface); padding: 44px; }
-.exchange-side:first-child { border-right: 1px solid var(--border); }
-.exchange-side::before { content: ''; display: block; height: 2px; margin-bottom: 32px; border-radius: 1px; }
-.exchange-side.mpm-side::before { background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
-.exchange-side.blockcon-side::before { background: linear-gradient(90deg, rgba(104,112,232,0.35), rgba(159,164,245,0.35)); }
-.exchange-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
-.exchange-subheading { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 28px; color: var(--text); }
-.exchange-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-.exchange-list li { font-size: 14px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 12px; font-weight: 400; line-height: 1.55; }
-.exchange-list li::before { content: ''; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+/* Value exchange - premium redesign */
+.exchange-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+.exchange-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; position: relative; }
+.exchange-panel.mpm-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+.exchange-header { padding: 32px 36px 28px; border-bottom: 1px solid var(--border); }
+.exchange-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.exchange-subheading { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; color: var(--text); line-height: 1.3; }
+.exchange-items { display: flex; flex-direction: column; }
+.exchange-item { display: flex; align-items: flex-start; gap: 20px; padding: 18px 36px; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.exchange-item:last-child { border-bottom: none; }
+.exchange-item:hover { background: rgba(104,112,232,0.04); }
+.exchange-num { font-size: 10px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; padding-top: 3px; flex-shrink: 0; width: 18px; opacity: 0.65; }
+.exchange-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; flex: 1; }
 
 /* OnStage */
 .onstage-feature { margin-top: 48px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
@@ -218,29 +208,9 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
   <a href="#onstage">OnStage</a>
   <a href="#growth">Growth Add-on</a>
   <a href="#timeline">Timeline</a>
-  <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="nav-cta" target="_blank" rel="noopener">Open the group</a>
+  <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="nav-cta" target="_blank" rel="noopener">Share your thoughts</a>
 </nav>
 
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-inner">
-    <div class="ticker-item"><span>&#x25CF;</span>Value Exchange Partnership · Zero Cash Commitment</div>
-    <div class="ticker-item"><span>&#x25B2;</span>3 VIP Retreat Tickets · Punta Cana, Nov 2026</div>
-    <div class="ticker-item"><span>&#x25CF;</span>10&ndash;15% Commission on Sponsorship Deals</div>
-    <div class="ticker-item"><span>&#x25B2;</span>OnStage · 400&ndash;700 Registered Executives Per Episode</div>
-    <div class="ticker-item"><span>&#x25CF;</span>6 Episode Brand Features · Blockcon Across the Full Engagement</div>
-    <div class="ticker-item"><span>&#x25B2;</span>LinkedIn Growth Add-on · $6,490/mo · 3 Months</div>
-    <div class="ticker-item"><span>&#x25CF;</span>Mid-August to Mid-November 2026</div>
-    <div class="ticker-item"><span>&#x25B2;</span>20k+ Combined Following Across MPM Leadership</div>
-    <div class="ticker-item"><span>&#x25CF;</span>Value Exchange Partnership · Zero Cash Commitment</div>
-    <div class="ticker-item"><span>&#x25B2;</span>3 VIP Retreat Tickets · Punta Cana, Nov 2026</div>
-    <div class="ticker-item"><span>&#x25CF;</span>10&ndash;15% Commission on Sponsorship Deals</div>
-    <div class="ticker-item"><span>&#x25B2;</span>OnStage · 400&ndash;700 Registered Executives Per Episode</div>
-    <div class="ticker-item"><span>&#x25CF;</span>6 Episode Brand Features · Blockcon Across the Full Engagement</div>
-    <div class="ticker-item"><span>&#x25B2;</span>LinkedIn Growth Add-on · $6,490/mo · 3 Months</div>
-    <div class="ticker-item"><span>&#x25CF;</span>Mid-August to Mid-November 2026</div>
-    <div class="ticker-item"><span>&#x25B2;</span>20k+ Combined Following Across MPM Leadership</div>
-  </div>
-</div>
 
 <div class="hero">
   <div class="hero-tag">MPM &times; Blockcon · Partnership Proposal · August 2026</div>
@@ -248,9 +218,8 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
   <p class="hero-sub">MPM activates its full distribution platform for Blockcon. Blockcon opens its highest-tier retreat for the MPM team and shares in what MPM helps close. Both sides win when the room fills.</p>
   <div class="hero-metrics">
     <div class="metric"><div class="metric-value">$11,835</div><div class="metric-label">VIP retreat value · 3 tickets</div></div>
-    <div class="metric"><div class="metric-value">10&ndash;15%</div><div class="metric-label">Sponsorship commission</div></div>
-    <div class="metric"><div class="metric-value">400&ndash;700</div><div class="metric-label">OnStage executives / episode</div></div>
-    <div class="metric"><div class="metric-value">$0 cash</div><div class="metric-label">Base partnership cost</div></div>
+    <div class="metric"><div class="metric-value">10-15%</div><div class="metric-label">Sponsorship commission</div></div>
+    <div class="metric"><div class="metric-value">400-700</div><div class="metric-label">OnStage executives / episode</div></div>
   </div>
   <a href="#partnership" class="glow-btn">See the partnership</a>
 </div>
@@ -259,34 +228,85 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
   <h2>Two sides.<br><em>One commitment.</em></h2>
   <p class="body-text">This is a barter deal with upside built in. MPM activates its full distribution stack for Blockcon and reaches the exact audience that should be in that room. Blockcon opens its highest-tier retreat for the MPM team and shares in the deals MPM helps close.</p>
   <div class="exchange-grid">
-    <div class="exchange-side mpm-side">
-      <div class="exchange-heading">MPM commits</div>
-      <div class="exchange-subheading">Full distribution platform, activated for Blockcon.</div>
-      <ul class="exchange-list">
-        <li><strong>6 brand features</strong> across all OnStage episodes during the engagement. "Brought to you by Blockcon" placement on every episode.</li>
-        <li><strong>1 spotlight appearance</strong> as featured guests on OnStage. Topic defined together, speaker lineup filled with aligned parties from MPM's network.</li>
-        <li><strong>Attendee list</strong> for the spotlight episode. Registered executives available for Blockcon's direct follow-up.</li>
-        <li><strong>6 speaker placements</strong> across the engagement period. Place your partners, sponsors, or confirmed speakers on OnStage panels as a value-add for your leads.</li>
-        <li><strong>Episode clips</strong> produced for every episode during the engagement, ready for Blockcon to distribute across owned channels.</li>
-        <li><strong>2 newsletter highlights</strong> featuring Blockcon, reaching all past OnStage registered attendees.</li>
-        <li><strong>4 MPM leadership profiles</strong> posting about Blockcon across the engagement period. Minimum 16 posts combined. 20k+ combined LinkedIn following, 75-78% decision-maker density.</li>
-        <li><strong>MPM brand page posts</strong> and organic promotions for Blockcon throughout the engagement.</li>
-        <li><strong>Active pitching</strong> of Blockcon across MPM's full network of clients, partners, and new leads, targeting both attendance and sponsorships.</li>
-        <li><strong>Blockcon logo and branding</strong> in all OnStage promotional materials. Official partner recognition throughout.</li>
-        <li><strong>Match-making</strong> between Blockcon and relevant OnStage speakers and partners in the MPM network.</li>
-        <li><strong>Post-partnership analytics</strong> shared upon request: registrants, viewer demographics, impressions, engagement KPIs.</li>
-      </ul>
+    <div class="exchange-panel mpm-panel">
+      <div class="exchange-header">
+        <div class="exchange-heading">MPM commits</div>
+        <div class="exchange-subheading">Full distribution platform, activated for Blockcon.</div>
+      </div>
+      <div class="exchange-items">
+        <div class="exchange-item">
+          <div class="exchange-num">01</div>
+          <div class="exchange-text"><strong>6 brand features</strong> across all OnStage episodes during the engagement. "Brought to you by Blockcon" placement on every episode.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">02</div>
+          <div class="exchange-text"><strong>1 spotlight appearance</strong> as featured guests on OnStage. Topic defined together, speaker lineup filled with aligned parties from MPM's network.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">03</div>
+          <div class="exchange-text"><strong>Attendee list</strong> for the spotlight episode. Registered executives available for Blockcon's direct follow-up.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">04</div>
+          <div class="exchange-text"><strong>6 speaker placements</strong> across the engagement period. Place your partners, sponsors, or confirmed speakers on OnStage panels as a value-add for your leads.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">05</div>
+          <div class="exchange-text"><strong>Episode clips</strong> produced for every episode during the engagement, ready for Blockcon to distribute across owned channels.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">06</div>
+          <div class="exchange-text"><strong>2 newsletter highlights</strong> featuring Blockcon, reaching all past OnStage registered attendees.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">07</div>
+          <div class="exchange-text"><strong>4 MPM leadership profiles</strong> posting about Blockcon across the engagement period. Minimum 16 posts combined. 20k+ combined LinkedIn following, 75-78% decision-maker density.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">08</div>
+          <div class="exchange-text"><strong>MPM brand page posts</strong> and organic promotions for Blockcon throughout the engagement.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">09</div>
+          <div class="exchange-text"><strong>Active pitching</strong> of Blockcon across MPM's full network of clients, partners, and new leads, targeting both attendance and sponsorships.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">10</div>
+          <div class="exchange-text"><strong>Blockcon logo and branding</strong> in all OnStage promotional materials. Official partner recognition throughout.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">11</div>
+          <div class="exchange-text"><strong>Post-partnership analytics</strong> shared upon request: registrants, viewer demographics, impressions, engagement KPIs.</div>
+        </div>
+      </div>
     </div>
-    <div class="exchange-side blockcon-side">
-      <div class="exchange-heading">Blockcon commits</div>
-      <div class="exchange-subheading">Retreat access, commissions, and official partnership status.</div>
-      <ul class="exchange-list">
-        <li><strong>3 fully covered VIP retreat tickets</strong> for 2 MPM co-founders and 1 team member. Includes 4 days and 3 nights in double accommodation at the resort. All food and adult beverages included. Full access to the BlockCon Experience: Golf Tournament, Casino, Polo Tournament, and all VIP programming.</li>
-        <li><strong>10&ndash;15% commission</strong> on sponsorship deals directly originated by MPM across the engagement and the post-conference period.</li>
-        <li><strong>Ticket sales commission</strong> structure for tickets traced to MPM's channels or audience. Terms defined by Blockcon (discount code, referral link, or agreed structure).</li>
-        <li><strong>Official partnership announcement</strong> integrated into Blockcon's communications and PR output.</li>
-        <li><strong>MPM Labs recognized</strong> as official digital partner across Blockcon promotional materials for the duration of the engagement.</li>
-      </ul>
+    <div class="exchange-panel">
+      <div class="exchange-header">
+        <div class="exchange-heading">Blockcon commits</div>
+        <div class="exchange-subheading">Retreat access, commissions, and official partnership status.</div>
+      </div>
+      <div class="exchange-items">
+        <div class="exchange-item">
+          <div class="exchange-num">01</div>
+          <div class="exchange-text"><strong>3 fully covered VIP retreat tickets</strong> for 2 MPM co-founders and 1 team member. Includes 4 days and 3 nights in double accommodation at the resort. All food and adult beverages included. Full access to the BlockCon Experience: Golf Tournament, Casino, Polo Tournament, and all VIP programming.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">02</div>
+          <div class="exchange-text"><strong>10-15% commission</strong> on sponsorship deals directly originated by MPM across the engagement and the post-conference period.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">03</div>
+          <div class="exchange-text"><strong>Ticket sales commission</strong> structure for tickets traced to MPM's channels or audience. Terms defined by Blockcon (discount code, referral link, or agreed structure).</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">04</div>
+          <div class="exchange-text"><strong>Official partnership announcement</strong> integrated into Blockcon's communications and PR output.</div>
+        </div>
+        <div class="exchange-item">
+          <div class="exchange-num">05</div>
+          <div class="exchange-text"><strong>MPM Labs recognized</strong> as official digital partner across Blockcon promotional materials for the duration of the engagement.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -302,11 +322,11 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
         <p class="bd-body">Panel discussions, LinkedIn Live events, and the highest-quality speakers in the blockchain and on-chain finance space. Every episode recorded, clipped, and amplified. A biweekly newsletter distributed to all accumulated past attendees. A research series co-authored with a PhD researcher in TradFi and digital assets.</p>
         <div class="onstage-stat-grid">
           <div class="onstage-stat">
-            <div class="onstage-stat-value">400&ndash;700</div>
+            <div class="onstage-stat-value">400-700</div>
             <div class="onstage-stat-label">Registered attendees per episode</div>
           </div>
           <div class="onstage-stat">
-            <div class="onstage-stat-value">75&ndash;78%</div>
+            <div class="onstage-stat-value">75-78%</div>
             <div class="onstage-stat-label">Decision-maker density</div>
           </div>
           <div class="onstage-stat">
@@ -329,7 +349,6 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
           <li><strong>6 episode brand features</strong> across all episodes in the engagement window. "Brought to you by Blockcon" placement on every episode. Biweekly cadence over 3 months.</li>
           <li><strong>Episode clips</strong> produced for every episode during the engagement, ready for Blockcon to distribute across owned channels.</li>
           <li><strong>2 newsletter highlights</strong> featuring Blockcon, reaching all past registered attendees.</li>
-          <li><strong>Match-making facilitation</strong> between Blockcon and relevant OnStage speakers and partners in the MPM network.</li>
         </ul>
       </div>
     </div>
@@ -390,12 +409,12 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
         <li>3 fully covered VIP retreat tickets · 2 co-founders + 1 team member</li>
         <li>4 days and 3 nights double accommodation at the resort, all-inclusive</li>
         <li>Full BlockCon Experience: Golf Tournament, Casino, Polo Tournament, all VIP programming</li>
-        <li>10&ndash;15% commission on all sponsorship deals originated by MPM</li>
+        <li>10-15% commission on all sponsorship deals originated by MPM</li>
         <li>Ticket sales commission structure, terms defined by Blockcon</li>
         <li>Official partnership announcement in Blockcon's comms and PR</li>
         <li>MPM recognized as official digital partner in Blockcon materials</li>
       </ul>
-      <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="pricing-cta" target="_blank" rel="noopener">Open the conversation</a>
+      <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="pricing-cta" target="_blank" rel="noopener">Share your thoughts</a>
     </div>
     <div class="pricing-card secondary">
       <div class="pricing-eyebrow">Optional add-on</div>
@@ -409,7 +428,7 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
         <li>Bi-weekly performance check-ins and optimization</li>
         <li>Full performance report at close: outreach volume, reply rates, meetings booked, pipeline value, content reach</li>
       </ul>
-      <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="pricing-cta" target="_blank" rel="noopener">Add the growth plan</a>
+      <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="pricing-cta" target="_blank" rel="noopener">Share your thoughts</a>
     </div>
   </div>
   <div class="pricing-meta">
@@ -426,7 +445,7 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
       <div class="meta-label">Growth add-on total</div>
     </div>
     <div class="meta-item">
-      <div class="meta-value">10&ndash;15%</div>
+      <div class="meta-value">10-15%</div>
       <div class="meta-label">Sponsorship commission</div>
     </div>
   </div>
@@ -494,9 +513,9 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
 </section>
 
 <div class="closing">
-  <h2>Ready to open<br>the <em>conversation?</em></h2>
-  <p class="body-text">The partnership starts with a handshake. Join the group, share your thoughts on the structure, and we'll figure out the right setup from there.</p>
-  <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="glow-btn" target="_blank" rel="noopener">Open the group</a>
+  <h2>What do you<br><em>think?</em></h2>
+  <p class="body-text">Drop your thoughts on the structure in the group. We'll take it from there.</p>
+  <a href="https://t.me/+c4BKjoFtS0ZmMTE5" class="glow-btn" target="_blank" rel="noopener">Share your thoughts</a>
 </div>
 
 </body>
