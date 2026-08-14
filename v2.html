@@ -178,6 +178,13 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
 .bd-title { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 10px; }
 .bd-body { font-size: 14px; font-weight: 400; color: var(--text-secondary); line-height: 1.65; }
 
+/* OnStage video sample */
+.onstage-video-sample { margin-top: 32px; }
+.onstage-video-sample video { width: 100%; border-radius: 10px; display: block; background: #000; border: 1px solid var(--border); }
+.onstage-video-caption { margin-top: 12px; font-size: 13px; color: var(--text-muted); }
+.onstage-video-caption a { color: var(--text-secondary); text-decoration: none; }
+.onstage-video-caption a:hover { color: var(--text); text-decoration: underline; }
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -352,6 +359,13 @@ h2 em { font-style: normal; background: linear-gradient(135deg, var(--accent), v
         </ul>
       </div>
     </div>
+  </div>
+  <div class="onstage-video-sample">
+    <div class="bd-eyebrow" style="margin-bottom:16px;">Episode Sample</div>
+    <video controls muted playsinline>
+      <source src="https://xrednnliexwfxzlf.public.blob.vercel-storage.com/MPM_Labs__Europes_Web3_Moment_Highlight_Clip-Bfyj9qHvUP0AiIY8adtBSsrlsmeSHa.mp4" type="video/mp4">
+    </video>
+    <p class="onstage-video-caption"><a href="https://www.linkedin.com/events/7487511426090119170/?viewAsMember=true" target="_blank" rel="noopener">Highlight extract from <em>The Fintech Interface for Stablecoin Adoption</em>, an MPM Labs OnStage episode.</a></p>
   </div>
 </section>
 
